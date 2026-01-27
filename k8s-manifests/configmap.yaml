@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: cart-app-configmap
+  namespace: subbu-1-ns
 data:
   MONGODB_URI: "mongodb://mongodb:27017/shopping_cart"
   PORT: "3000"
