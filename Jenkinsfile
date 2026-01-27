@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage ('git checkout') {
             steps {
-               git branch: 'main', url: 'https://github.com/iamsubbu3/maven-web-application.git'
+               git branch: 'master', url: 'https://github.com/iamsubbu3/E-CommerceCartPage_Yuktha.git'
             }
         }
         
@@ -17,10 +17,10 @@ pipeline {
                 script {
                     dir('k8s-manifests') {
                         withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'kubeconfig-file', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
-                            sh 'kubectl apply -f mongodb-deployment.yml'
-                            sh 'kubectl apply -f mongodb-service.yml'
-                            sh 'kubectl apply -f userprofile-deployment.yml'
-                            sh 'kubectl apply -f usernode-js-service.yml'
+                            sh 'kubectl apply -f mongodb-deployment.yaml'
+                            sh 'kubectl apply -f mongodb-service.yaml'
+                            sh 'kubectl apply -f app-deployment.yaml'
+                            sh 'kubectl apply -f app-service.yaml'
                         }
                     }
                 }
