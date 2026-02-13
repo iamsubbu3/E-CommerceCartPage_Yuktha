@@ -4,7 +4,7 @@ metadata:
   name: cart-deployment
   namespace: subbu-1-ns
 spec:
-  replicas: 5
+  replicas: 3
   selector:
     matchLabels:
       app: cart
@@ -15,44 +15,44 @@ spec:
     spec:
       containers:
       - name: cart-app
-        image: yukc09/ecommer:latest
+        image: IMAGE_PLACEHOLDER
+
         resources:
           requests:
-            cpu: 50m
-            memory: 128Mi 
+            cpu: 200m
+            memory: 256Mi
           limits:
-            cpu: 100m  
-            memory: 200Mi
+            cpu: 500m
+            memory: 512Mi
+
         ports:
         - containerPort: 3000
-        env:
-          - name: MONGODB_URI
-            valueFrom:
-              configMapKeyRef:
-                name: cart-app-configmap
-                key: MONGODB_URI
-          - name: PORT
-            valueFrom:
-              configMapKeyRef:
-                name: cart-app-configmap
-                key:  PORT     
 
---- 
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: cart-deployment-hpa
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: cart-deployment
-  minReplicas: 5
-  maxReplicas: 10
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 10
+        # 🔹 Config from ConfigMap + Secret
+        env:
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: cart-app-configmap
+              key: PORT
+
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              name: cart-app-secret
+              key: MONGODB_URI
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+   
