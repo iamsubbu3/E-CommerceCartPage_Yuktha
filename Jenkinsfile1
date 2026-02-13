@@ -59,7 +59,7 @@ pipeline {
         stage('Checkout Source Code') {
             steps {
                 git branch: 'master',
-                    url: 'https://github.com/iamsubbu3/E-CommerceCartPage_Yuktha.git'
+                    url: 'https://github.com/iamsubbu3/Hospital-Application.git'
             }
         }
 
@@ -96,20 +96,20 @@ pipeline {
             }
         }
 
-        // /* ===================================================== */
-        // stage('Trivy Security Scan') {
-        //     steps {
-        //         script {
-        //             echo "🔍 Running Trivy scan..."
+        /* ===================================================== */
+        stage('Trivy Security Scan') {
+            steps {
+                script {
+                    echo "🔍 Running Trivy scan..."
 
-        //             sh "trivy image --severity LOW,MEDIUM,HIGH ${FULL_IMAGE}"
-        //             sh "trivy image --exit-code 1 --severity CRITICAL ${FULL_IMAGE}"
-        //             sh "trivy image --format json -o trivy-report.json ${FULL_IMAGE}"
+                    sh "trivy image --severity LOW,MEDIUM,HIGH ${FULL_IMAGE}"
+                    sh "trivy image --exit-code 1 --severity CRITICAL ${FULL_IMAGE}"
+                    sh "trivy image --format json -o trivy-report.json ${FULL_IMAGE}"
 
-        //             archiveArtifacts artifacts: 'trivy-report.json', fingerprint: true
-        //         }
-        //     }
-        // }
+                    archiveArtifacts artifacts: 'trivy-report.json', fingerprint: true
+                }
+            }
+        }
 
         /* ===================================================== */
         stage('Docker Push') {
