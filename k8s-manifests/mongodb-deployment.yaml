@@ -51,11 +51,11 @@ spec:
           initialDelaySeconds: 30
           periodSeconds: 10
 
-  # volumeClaimTemplates:
-  # - metadata:
-  #     name: mongo-storage
-  #   spec:
-  #     accessModes: ["ReadWriteOnce"]
-  #     resources:
-  #       requests:
-  #         storage: 5Gi
+  volumeClaimTemplates:
+  - metadata:
+      name: mongo-storage
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 5Gi
