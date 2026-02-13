@@ -148,7 +148,7 @@ pipeline {
                         """
 
                         /* Apply base resources */
-                        sh "kubectl apply -f mongodb-statefulset.yaml -n ${K8S_NAMESPACE}"
+                        sh "kubectl apply -f mongodb-deployment.yaml -n ${K8S_NAMESPACE}"
                         sh "kubectl apply -f mongodb-service.yaml -n ${K8S_NAMESPACE}"
                         sh "kubectl apply -f configmap.yaml -n ${K8S_NAMESPACE}"
                         sh "kubectl apply -f secret.yaml -n ${K8S_NAMESPACE}"
