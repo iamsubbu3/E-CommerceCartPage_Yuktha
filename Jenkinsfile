@@ -148,9 +148,6 @@ pipeline {
                         """
 
                         /* Apply base resources */
-                        sh "pwd"
-                        sh "ls -la"
-                        sh "ls -la k8s-manifests"
 
                         sh "kubectl apply -f . -n ${K8S_NAMESPACE}"
 
