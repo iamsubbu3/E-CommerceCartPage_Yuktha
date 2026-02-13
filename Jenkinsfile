@@ -148,13 +148,12 @@ pipeline {
                         """
 
                         /* Apply base resources */
-                        sh "kubectl apply -f mongodb-deployment.yaml -n ${K8S_NAMESPACE}"
-                        sh "kubectl apply -f mongodb-service.yaml -n ${K8S_NAMESPACE}"
-                        sh "kubectl apply -f configmap.yaml -n ${K8S_NAMESPACE}"
-                        sh "kubectl apply -f secret.yaml -n ${K8S_NAMESPACE}"
-                        sh "kubectl apply -f app-deployment.yaml -n ${K8S_NAMESPACE}"
-                        sh "kubectl apply -f app-deployment-hpa.yaml -n ${K8S_NAMESPACE}"
-                        sh "kubectl apply -f app-service.yaml -n ${K8S_NAMESPACE}"
+                        sh "pwd"
+                        sh "ls -la"
+                        sh "ls -la k8s-manifests"
+
+                        sh "kubectl apply -f . -n ${K8S_NAMESPACE}"
+
 
                         /* Update deployment image safely */
                         sh """

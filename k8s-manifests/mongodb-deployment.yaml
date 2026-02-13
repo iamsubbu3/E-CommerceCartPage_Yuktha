@@ -3,6 +3,7 @@ kind: StatefulSet
 metadata:
   name: mongodb
   namespace: subbu-1-ns
+
 spec:
   serviceName: mongodb
   replicas: 1
@@ -18,7 +19,7 @@ spec:
     spec:
       containers:
       - name: mongodb
-        image: mongo:7.0
+        image: mongo:latest
 
         ports:
         - containerPort: 27017
@@ -55,7 +56,24 @@ spec:
   - metadata:
       name: mongo-storage
     spec:
-      accessModes: ["ReadWriteOnce"]
+      accessModes:
+      - ReadWriteOnce
+      storageClassName: gp3
       resources:
         requests:
           storage: 5Gi
+
+
+# ----------------------------------------------------------------------------------------------------------
+# 🧨 How to DELETE the storage (IMPORTANT)
+#-----------------------------------------------------------------------------------------------------------
+
+# kubectl get pvc -n subbu-1-ns
+# kubectl delete pvc mongo-storage-mongodb-0 -n subbu-1-ns
+
+
+#-----------------------------------------------------------------------------------------------------------
+# 🚨 Faster way (delete everything)
+#-----------------------------------------------------------------------------------------------------------
+
+# kubectl delete pvc --all -n subbu-1-ns

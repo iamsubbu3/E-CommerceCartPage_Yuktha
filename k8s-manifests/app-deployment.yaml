@@ -3,16 +3,29 @@ kind: Deployment
 metadata:
   name: cart-deployment
   namespace: subbu-1-ns
+
 spec:
-  replicas: 3
+  replicas: 15
+
   selector:
     matchLabels:
       app: cart
+
   template:
     metadata:
       labels:
         app: cart
+
     spec:
+      # 🔥 Spread pods evenly across nodes
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app: cart
+
       containers:
       - name: cart-app
         image: IMAGE_PLACEHOLDER
@@ -28,7 +41,7 @@ spec:
         ports:
         - containerPort: 3000
 
-        # 🔹 Config from ConfigMap + Secret
+      # 🔹 Config from ConfigMap + Secret
         env:
         - name: PORT
           valueFrom:
@@ -55,4 +68,3 @@ spec:
             port: 3000
           initialDelaySeconds: 15
           periodSeconds: 20
-   
