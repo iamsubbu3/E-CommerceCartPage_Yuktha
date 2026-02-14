@@ -17,6 +17,11 @@ spec:
         app: cart
 
     spec:
+
+      # 🔥 Run only on app nodes
+      nodeSelector:
+        role: app
+
       # 🔥 Spread pods evenly across nodes
       topologySpreadConstraints:
       - maxSkew: 1
@@ -41,7 +46,6 @@ spec:
         ports:
         - containerPort: 3000
 
-      # 🔹 Config from ConfigMap + Secret
         env:
         - name: PORT
           valueFrom:
